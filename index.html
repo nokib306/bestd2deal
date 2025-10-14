@@ -6,82 +6,61 @@
     <title>Zip-Foreclosures - $1 Trial Offer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: scale(0.3) translateY(50px); }
+            50% { opacity: 1; }
+            100% { transform: scale(1) translateY(0); }
         }
         @keyframes pulse-glow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
-            }
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
         }
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+            0%, 100% { transform: translateY(0px) rotateZ(-5deg); }
+            50% { transform: translateY(-30px) rotateZ(0deg); }
         }
-        .animate-fade-in-down {
-            animation: fadeInDown 0.8s ease-out;
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out;
+        @keyframes notif-slide {
+            from { opacity: 0; transform: translateY(-20px) translateX(20px); }
+            to { opacity: 1; transform: translateY(0) translateX(0); }
         }
-        .animate-slide-in-left {
-            animation: slideInLeft 0.8s ease-out;
+        @keyframes notif-fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
-        .animate-slide-in-right {
-            animation: slideInRight 0.8s ease-out;
-        }
-        .pulse-glow {
-            animation: pulse-glow 2s infinite;
-        }
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
-        }
+        
+        .animate-fade-in-down { animation: fadeInDown 0.8s ease-out; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
+        .animate-slide-in-left { animation: slideInLeft 0.8s ease-out; }
+        .animate-slide-in-right { animation: slideInRight 0.8s ease-out; }
+        .animate-bounce-in { animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        .float-animation { animation: float 4s ease-in-out infinite; }
+        
         .btn-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
         .btn-hover:hover {
             transform: translateY(-3px);
@@ -89,6 +68,7 @@
         }
         .feature-card {
             transition: all 0.3s ease;
+            will-change: transform;
         }
         .feature-card:hover {
             transform: translateY(-10px);
@@ -106,10 +86,40 @@
         .premium-glow {
             box-shadow: 0 0 30px rgba(59, 130, 246, 0.4), 0 0 60px rgba(139, 92, 246, 0.2);
         }
+        .shimmer-bg {
+            background: linear-gradient(90deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.2) 50%, rgba(59,130,246,0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        
+        .notification {
+            animation: notif-slide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .notification:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .notification.hide {
+            animation: notif-fade-out 0.5s ease forwards;
+        }
+
+        /* Performance optimizations */
+        html { scroll-behavior: smooth; }
+        body { backface-visibility: hidden; }
+        
+        @media (max-width: 768px) {
+            .float-animation { animation: float 3s ease-in-out infinite; }
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-x-hidden">
-    <!-- Header/Navigation -->
+    
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="fixed top-4 right-4 z-40 space-y-2 max-w-xs"></div>
+
+    <!-- Header -->
     <header class="fixed top-0 w-full bg-slate-900/95 backdrop-blur-md z-50 border-b border-slate-700/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center">
@@ -132,10 +142,11 @@
     <!-- Hero Section -->
     <section class="min-h-screen flex items-center justify-center pt-20 pb-10 px-4">
         <div class="max-w-6xl w-full grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+            
             <!-- Left Content -->
             <div class="space-y-6 animate-slide-in-left">
                 <div class="space-y-3">
-                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4">
+                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4 animate-bounce">
                         🎉 EXCLUSIVE OFFER
                     </div>
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
@@ -181,52 +192,83 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                         </svg>
                     </a>
-                    <button class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10">
+                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10 inline-flex items-center justify-center">
                         Learn More
-                    </button>
+                    </a>
                 </div>
 
                 <p class="text-sm text-slate-400">✓ US Only • No credit card required • Cancel anytime</p>
             </div>
 
-            <!-- Right Visual -->
-            <div class="relative hidden md:flex justify-center items-center">
+            <!-- Right Visual - Animated Offer Card -->
+            <div class="relative hidden md:flex justify-center items-center animate-slide-in-right">
                 <div class="float-animation relative w-full max-w-md">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur-3xl opacity-20"></div>
-                    <div class="relative bg-gradient-to-br from-blue-500/30 to-purple-500/30 backdrop-blur-xl border border-blue-400/30 rounded-3xl p-8 space-y-6">
-                        <div class="space-y-3">
-                            <div class="h-3 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full w-3/4"></div>
-                            <div class="h-3 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full w-full"></div>
-                            <div class="h-3 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full w-5/6"></div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="flex gap-2">
-                                <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg"></div>
-                                <div class="flex-1 space-y-2">
-                                    <div class="h-2 bg-slate-400/30 rounded w-3/4"></div>
-                                    <div class="h-2 bg-slate-400/30 rounded w-1/2"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-30"></div>
+                    
+                    <!-- Main Card -->
+                    <div class="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-400/40 rounded-3xl p-8 space-y-6 overflow-hidden">
+                        
+                        <!-- Animated Background -->
+                        <div class="absolute inset-0 shimmer-bg opacity-50"></div>
+                        
+                        <!-- Content -->
+                        <div class="relative space-y-6">
+                            <!-- Price Tag -->
+                            <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl p-6 text-center transform hover:scale-105 transition">
+                                <div class="text-5xl font-black text-white">$1</div>
+                                <div class="text-sm font-semibold text-emerald-100">TRIAL OFFER</div>
+                            </div>
+
+                            <!-- Features List -->
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm font-semibold">10,000+ Properties</span>
+                                </div>
+                                <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
+                                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm font-semibold">Real-time Alerts</span>
+                                </div>
+                                <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
+                                    <div class="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm font-semibold">Expert Support</span>
                                 </div>
                             </div>
-                            <div class="flex gap-2 pt-3">
-                                <div class="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-lg"></div>
-                                <div class="flex-1 space-y-2">
-                                    <div class="h-2 bg-slate-400/30 rounded w-3/4"></div>
-                                    <div class="h-2 bg-slate-400/30 rounded w-1/2"></div>
+
+                            <!-- CTA Button -->
+                            <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn btn-hover w-full py-3 rounded-xl font-bold text-white inline-flex items-center justify-center gap-2 premium-glow">
+                                Start Now
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                </svg>
+                            </a>
+
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 text-center pt-4 border-t border-slate-500/30">
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">10K+</div>
+                                    <div class="text-xs text-slate-300">Properties</div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="pt-4 border-t border-slate-400/20 flex justify-around text-center">
-                            <div>
-                                <div class="text-2xl font-bold gradient-text">10K+</div>
-                                <div class="text-xs text-slate-300">Properties</div>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold gradient-text">50+</div>
-                                <div class="text-xs text-slate-300">States</div>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold gradient-text">24/7</div>
-                                <div class="text-xs text-slate-300">Support</div>
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">50+</div>
+                                    <div class="text-xs text-slate-300">States</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">24/7</div>
+                                    <div class="text-xs text-slate-300">Support</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -331,5 +373,73 @@
             </div>
         </div>
     </footer>
-</body>
-</html>
+
+    <script>
+        const names = ['Sarah M.', 'John D.', 'Michael R.', 'Jessica L.', 'David K.', 'Emily T.', 'Robert P.', 'Amanda S.', 'Chris W.', 'Jennifer C.'];
+        const gifts = ['$200 Bonus', '$150 Credit', 'Free Guide', 'Premium Access', '$300 Gift Card', 'Pro Tools', 'Expert Consultation', 'Market Report', 'Analysis Tools', 'Fast Track Access'];
+        const locations = ['New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Phoenix, AZ', 'Miami, FL', 'Seattle, WA', 'Boston, MA', 'Denver, CO', 'Austin, TX'];
+        const messages = [
+            'just purchased the $1 trial',
+            'started their journey',
+            'activated their account',
+            'joined the platform',
+            'got started today',
+            'claimed their spot',
+            'started investing'
+        ];
+
+        function showNotification() {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+            const notif = document.createElement('div');
+            notif.className = 'notification bg-gradient-to-r from-green-500/90 to-emerald-500/90 backdrop-blur-md border border-green-400/50 rounded-lg p-3 shadow-lg text-xs sm:text-sm max-w-xs';
+            notif.innerHTML = `
+                <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="block hover:opacity-80 transition">
+                    <div class="flex items-start gap-2">
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-white">${randomName}</div>
+                            <div class="text-green-100 text-xs">${randomLocation}</div>
+                            <div class="mt-1 text-white/90">${randomMessage}</div>
+                            <div class="mt-1 font-bold text-yellow-200">🎁 Received: ${randomGift}</div>
+                        </div>
+                    </div>
+                </a>
+            `;
+
+            const container = document.getElementById('notificationContainer');
+            container.appendChild(notif);
+
+            setTimeout(() => {
+                notif.classList.add('hide');
+                setTimeout(() => notif.remove(), 500);
+            }, 6000);
+        }
+
+        // Initial notification after 2 seconds
+        setTimeout(showNotification, 2000);
+
+        // Show notifications every 8-12 seconds
+        setInterval(() => {
+            if (Math.random() > 0.3) {
+                showNotification();
+            }
+        }, 8000 + Math.random() * 4000);
+
+        // Performance optimization
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.feature-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.75) {
+                    card.style.opacity = '1';
+                }
+            });
+        }, { passive: true });
+    </script>
