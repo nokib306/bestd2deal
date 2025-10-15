@@ -72,10 +72,6 @@
             animation: notifSlide 0.3s ease-out;
             will-change: transform;
         }
-        
-        @media (max-width: 768px) {
-            .float-animation { animation: float 2s ease-in-out infinite; }
-        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
@@ -104,144 +100,291 @@
     <section class="min-h-screen flex items-center justify-center pt-24 pb-10 px-4 relative overflow-hidden">
         <div class="max-w-6xl w-full">
             
-            <!-- RIGHT SECTION - SEARCH HOMES TO RENT (Top on Mobile) -->
-            <div class="relative order-first md:order-last mb-8 md:mb-0 md:float-right md:w-1/2 md:pl-8 animate-slide-in-right">
-                <div class="float-animation relative w-full max-w-md">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-30"></div>
-                    
-                    <!-- Main Card -->
-                    <div class="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-400/40 rounded-3xl p-8 space-y-6 overflow-hidden">
+            <!-- MOBILE VIEW - Search on top, text below -->
+            <div class="md:hidden space-y-8">
+                <!-- RIGHT SECTION - SEARCH HOMES (Top on Mobile) -->
+                <div class="relative animate-slide-in-right">
+                    <div class="float-animation relative w-full max-w-md mx-auto">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-30"></div>
                         
-                        <!-- Search Header -->
-                        <div class="text-center space-y-2">
-                            <h3 class="text-2xl font-bold gradient-text">Find Your Rental Home</h3>
-                            <p class="text-sm text-slate-300">Search & Browse Available Properties</p>
-                        </div>
+                        <!-- Main Card -->
+                        <div class="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-400/40 rounded-3xl p-8 space-y-6 overflow-hidden">
+                            
+                            <!-- Search Header -->
+                            <div class="text-center space-y-2">
+                                <h3 class="text-2xl font-bold gradient-text">Find Your Rental Home</h3>
+                                <p class="text-sm text-slate-300">Search & Browse Properties</p>
+                            </div>
 
-                        <!-- Search Input -->
-                        <div class="relative group">
-                            <input 
-                                type="text" 
-                                id="rentalSearch"
-                                placeholder="Search location..."
-                                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition"
-                            >
-                            <button 
-                                onclick="searchRental()"
-                                class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-500/20 rounded-lg transition"
-                            >
-                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                            </button>
-                        </div>
+                            <!-- Search Input -->
+                            <div class="relative group">
+                                <input 
+                                    type="text" 
+                                    id="rentalSearch"
+                                    placeholder="Search location..."
+                                    class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition"
+                                >
+                                <button 
+                                    onclick="searchRental()"
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-500/20 rounded-lg transition"
+                                >
+                                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </button>
+                            </div>
 
-                        <!-- Property Results (Hidden by default) -->
-                        <div id="rentalResults" class="hidden space-y-3 property-popup">
-                            <!-- Result items will appear here -->
-                        </div>
+                            <!-- Property Results (Hidden by default) -->
+                            <div id="rentalResults" class="hidden space-y-3 property-popup">
+                                <!-- Result items will appear here -->
+                            </div>
 
-                        <!-- Default Display - Flip Cards -->
-                        <div id="defaultDisplay" class="space-y-4">
-                            <!-- For Sale Card -->
-                            <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-400/40 rounded-2xl p-5 hover:scale-105 transition">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <div class="text-sm font-semibold text-slate-300">FOR SALE</div>
-                                        <div class="text-2xl font-bold text-white mt-1">$245K</div>
-                                        <div class="text-xs text-slate-400 mt-2">🏠 Search for sale homes</div>
+                            <!-- Default Display - Flip Cards -->
+                            <div id="defaultDisplay" class="space-y-4">
+                                <!-- For Sale Card -->
+                                <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-400/40 rounded-2xl p-5 hover:scale-105 transition">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-300">FOR SALE</div>
+                                            <div class="text-2xl font-bold text-white mt-1">$245K</div>
+                                            <div class="text-xs text-slate-400 mt-2">🏠 Search properties</div>
+                                        </div>
+                                        <div class="text-3xl">🏘️</div>
                                     </div>
-                                    <div class="text-3xl">🏘️</div>
+                                </div>
+
+                                <!-- To Rent Card -->
+                                <div class="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/40 rounded-2xl p-5 hover:scale-105 transition">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-300">TO RENT</div>
+                                            <div class="text-2xl font-bold text-white mt-1">$1,200/mo</div>
+                                            <div class="text-xs text-slate-400 mt-2">🔑 Search rentals</div>
+                                        </div>
+                                        <div class="text-3xl">🔑</div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- To Rent Card -->
-                            <div class="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/40 rounded-2xl p-5 hover:scale-105 transition">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <div class="text-sm font-semibold text-slate-300">TO RENT</div>
-                                        <div class="text-2xl font-bold text-white mt-1">$1,200/mo</div>
-                                        <div class="text-xs text-slate-400 mt-2">🔑 Search for rental homes</div>
-                                    </div>
-                                    <div class="text-3xl">🔑</div>
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 text-center border-t border-slate-500/30 pt-4">
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">10K+</div>
+                                    <div class="text-xs text-slate-300">Properties</div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Stats -->
-                        <div class="grid grid-cols-3 gap-2 text-center border-t border-slate-500/30 pt-4">
-                            <div>
-                                <div class="text-2xl font-bold gradient-text">10K+</div>
-                                <div class="text-xs text-slate-300">Properties</div>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold gradient-text">50+</div>
-                                <div class="text-xs text-slate-300">States</div>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold gradient-text">24/7</div>
-                                <div class="text-xs text-slate-300">Support</div>
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">50+</div>
+                                    <div class="text-xs text-slate-300">States</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">24/7</div>
+                                    <div class="text-xs text-slate-300">Support</div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- LEFT CONTENT - ORIGINAL (Bottom on Mobile) -->
+                <div class="space-y-6 animate-slide-in-left">
+                    <div class="space-y-3">
+                        <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4">
+                            🎉 EXCLUSIVE OFFER
+                        </div>
+                        <h2 class="text-4xl font-black leading-tight">
+                            Get Started for Just
+                            <span class="gradient-text"> $1</span>
+                        </h2>
+                        <p class="text-lg text-slate-300">
+                            Unlock exclusive foreclosure opportunities and real estate insights with our premium trial.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3 pt-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-slate-200">Access thousands of foreclosure listings nationwide</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-slate-200">Real-time market data and investment insights</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-slate-200">Expert analysis and property valuation tools</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex gap-3 flex-col">
+                        <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect">
+                            <span>Start $1 Trial Now</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                        <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10 inline-flex items-center justify-center">
+                            Learn More
+                        </a>
+                    </div>
+
+                    <p class="text-sm text-slate-400">✓ US Only • No credit card required • Cancel anytime</p>
                 </div>
             </div>
 
-            <!-- LEFT CONTENT - ORIGINAL (Bottom on Mobile) -->
-            <div class="space-y-6 animate-slide-in-left md:w-1/2 md:pr-8 clear-both">
-                <div class="space-y-3">
-                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4 animate-bounce">
-                        🎉 EXCLUSIVE OFFER
+            <!-- DESKTOP VIEW - Left text, Right animated card -->
+            <div class="hidden md:grid md:grid-cols-2 md:gap-8 md:items-center">
+                
+                <!-- LEFT CONTENT -->
+                <div class="space-y-6 animate-slide-in-left">
+                    <div class="space-y-3">
+                        <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4 animate-bounce">
+                            🎉 EXCLUSIVE OFFER
+                        </div>
+                        <h2 class="text-5xl lg:text-6xl font-black leading-tight">
+                            Get Started for Just
+                            <span class="gradient-text"> $1</span>
+                        </h2>
+                        <p class="text-xl text-slate-300">
+                            Unlock exclusive foreclosure opportunities and real estate insights with our premium trial.
+                        </p>
                     </div>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
-                        Get Started for Just
-                        <span class="gradient-text"> $1</span>
-                    </h2>
-                    <p class="text-xl text-slate-300">
-                        Unlock exclusive foreclosure opportunities and real estate insights with our premium trial.
-                    </p>
+
+                    <div class="space-y-3 pt-4">
+                        <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.1s;">
+                            <div class="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-slate-200">Access thousands of foreclosure listings nationwide</span>
+                        </div>
+                        <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.2s;">
+                            <div class="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-slate-200">Real-time market data and investment insights</span>
+                        </div>
+                        <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.3s;">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-slate-200">Expert analysis and property valuation tools</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex gap-3 flex-col sm:flex-row">
+                        <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect">
+                            <span>Start $1 Trial Now</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                        <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10 inline-flex items-center justify-center">
+                            Learn More
+                        </a>
+                    </div>
+
+                    <p class="text-sm text-slate-400">✓ US Only • No credit card required • Cancel anytime</p>
                 </div>
 
-                <div class="space-y-3 pt-4">
-                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.1s;">
-                        <div class="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
+                <!-- RIGHT SECTION - ANIMATED CARD -->
+                <div class="relative animate-slide-in-right">
+                    <div class="float-animation relative w-full max-w-md">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-30"></div>
+                        
+                        <!-- Main Card -->
+                        <div class="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-400/40 rounded-3xl p-8 space-y-6 overflow-hidden">
+                            
+                            <!-- Search Header -->
+                            <div class="text-center space-y-2">
+                                <h3 class="text-2xl font-bold gradient-text">Find Your Rental Home</h3>
+                                <p class="text-sm text-slate-300">Search & Browse Properties</p>
+                            </div>
+
+                            <!-- Search Input -->
+                            <div class="relative group">
+                                <input 
+                                    type="text" 
+                                    id="rentalSearchDesktop"
+                                    placeholder="Search location..."
+                                    class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition"
+                                >
+                                <button 
+                                    onclick="searchRentalDesktop()"
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-500/20 rounded-lg transition"
+                                >
+                                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Property Results (Hidden by default) -->
+                            <div id="rentalResultsDesktop" class="hidden space-y-3 property-popup">
+                                <!-- Result items will appear here -->
+                            </div>
+
+                            <!-- Default Display - Flip Cards -->
+                            <div id="defaultDisplayDesktop" class="space-y-4">
+                                <!-- For Sale Card -->
+                                <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-400/40 rounded-2xl p-5 hover:scale-105 transition">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-300">FOR SALE</div>
+                                            <div class="text-2xl font-bold text-white mt-1">$245K</div>
+                                            <div class="text-xs text-slate-400 mt-2">🏠 Search properties</div>
+                                        </div>
+                                        <div class="text-3xl">🏘️</div>
+                                    </div>
+                                </div>
+
+                                <!-- To Rent Card -->
+                                <div class="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/40 rounded-2xl p-5 hover:scale-105 transition">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm font-semibold text-slate-300">TO RENT</div>
+                                            <div class="text-2xl font-bold text-white mt-1">$1,200/mo</div>
+                                            <div class="text-xs text-slate-400 mt-2">🔑 Search rentals</div>
+                                        </div>
+                                        <div class="text-3xl">🔑</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 text-center border-t border-slate-500/30 pt-4">
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">10K+</div>
+                                    <div class="text-xs text-slate-300">Properties</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">50+</div>
+                                    <div class="text-xs text-slate-300">States</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold gradient-text">24/7</div>
+                                    <div class="text-xs text-slate-300">Support</div>
+                                </div>
+                            </div>
                         </div>
-                        <span class="text-slate-200">Access thousands of foreclosure listings nationwide</span>
-                    </div>
-                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.2s;">
-                        <div class="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <span class="text-slate-200">Real-time market data and investment insights</span>
-                    </div>
-                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <span class="text-slate-200">Expert analysis and property valuation tools</span>
                     </div>
                 </div>
-
-                <div class="pt-4 flex gap-3 flex-col sm:flex-row">
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect">
-                        <span>Start $1 Trial Now</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                        </svg>
-                    </a>
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10 inline-flex items-center justify-center">
-                        Learn More
-                    </a>
-                </div>
-
-                <p class="text-sm text-slate-400">✓ US Only • No credit card required • Cancel anytime</p>
             </div>
         </div>
     </section>
@@ -275,7 +418,7 @@
             ]
         };
 
-        // Search Rental
+        // Search Rental - Mobile
         function searchRental() {
             const input = document.getElementById('rentalSearch').value.trim().toLowerCase();
             const results = document.getElementById('rentalResults');
@@ -289,9 +432,9 @@
             ];
 
             results.innerHTML = '';
-            properties.forEach((prop, idx) => {
+            properties.forEach((prop) => {
                 const card = document.createElement('div');
-                card.className = 'pop-up bg-gradient-to-br from-blue-400/20 to-purple-400/20 border border-blue-400/40 rounded-xl p-4 space-y-3';
+                card.className = 'pop-up bg-gradient-to-br from-blue-400/20 to-purple-400/20 border border-blue-400/40 rounded-xl p-4';
                 card.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div>
@@ -300,9 +443,6 @@
                         </div>
                         <div class="text-xl font-bold gradient-text">${prop.price}</div>
                     </div>
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn w-full py-2 rounded-lg font-semibold text-center text-white text-sm hover:scale-105 transition">
-                        View Details
-                    </a>
                 `;
                 results.appendChild(card);
             });
@@ -313,7 +453,7 @@
             setTimeout(() => {
                 results.classList.add('hidden');
                 defaultDisplay.classList.remove('hidden');
-            }, 8000);
+            }, 6000);
         }
 
         // Notification System
@@ -353,10 +493,51 @@
             setInterval(showNotification, 7000);
         });
 
-        // Search on Enter
+        // Search on Enter - Mobile
         document.getElementById('rentalSearch')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') searchRental();
         });
-    </script>
-</body>
-</html>
+
+        // Search on Enter - Desktop
+        document.getElementById('rentalSearchDesktop')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchRentalDesktop();
+        });
+    </script>to-purple-400/20 border border-blue-400/40 rounded-xl p-4';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-semibold text-white">${prop.name}</div>
+                            <div class="text-sm text-slate-300">${prop.type}</div>
+                        </div>
+                        <div class="text-xl font-bold gradient-text">${prop.price}</div>
+                    </div>
+                `;
+                results.appendChild(card);
+            });
+
+            results.classList.remove('hidden');
+            defaultDisplay.classList.add('hidden');
+
+            setTimeout(() => {
+                results.classList.add('hidden');
+                defaultDisplay.classList.remove('hidden');
+            }, 6000);
+        }
+
+        // Search Rental - Desktop
+        function searchRentalDesktop() {
+            const input = document.getElementById('rentalSearchDesktop').value.trim().toLowerCase();
+            const results = document.getElementById('rentalResultsDesktop');
+            const defaultDisplay = document.getElementById('defaultDisplayDesktop');
+            
+            if (!input) return;
+
+            let properties = rentalData[input] || [
+                { name: 'Beautiful Home', price: '$2,000/mo', type: '2 Bed' },
+                { name: 'Spacious Apartment', price: '$1,700/mo', type: '2 Bed' }
+            ];
+
+            results.innerHTML = '';
+            properties.forEach((prop) => {
+                const card = document.createElement('div');
+                card.className = 'pop-up bg-gradient-to-br from-blue-400/20
