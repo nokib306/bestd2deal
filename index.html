@@ -8,269 +8,190 @@
     <style>
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         
+        html { scroll-behavior: smooth; }
+        body { backface-visibility: hidden; overflow-x: hidden; }
+        
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
+            from { opacity: 0; transform: translateX(-40px); }
             to { opacity: 1; transform: translateX(0); }
         }
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
+            from { opacity: 0; transform: translateX(40px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        @keyframes bounce-in {
-            0% { opacity: 0; transform: scale(0.3) translateY(50px); }
-            50% { opacity: 1; }
-            100% { transform: scale(1) translateY(0); }
-        }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
-        }
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotateZ(-5deg); }
-            50% { transform: translateY(-30px) rotateZ(0deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
-        @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes popUp {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-        @keyframes notif-slide {
-            from { opacity: 0; transform: translateY(-20px) translateX(20px); }
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes notifSlide {
+            from { opacity: 0; transform: translateY(-15px) translateX(15px); }
             to { opacity: 1; transform: translateY(0) translateX(0); }
         }
-        @keyframes notif-fade-out {
-            from { opacity: 1; }
-            to { opacity: 0; }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
         }
         
-        .animate-fade-in-down { animation: fadeInDown 0.8s ease-out; }
-        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
-        .animate-slide-in-left { animation: slideInLeft 0.8s ease-out; }
-        .animate-slide-in-right { animation: slideInRight 0.8s ease-out; }
-        .animate-bounce-in { animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .pulse-glow { animation: pulse-glow 2s infinite; }
-        .float-animation { animation: float 4s ease-in-out infinite; }
+        .animate-fade-in-down { animation: fadeInDown 0.6s ease-out; }
+        .animate-slide-in-left { animation: slideInLeft 0.7s ease-out; }
+        .animate-slide-in-right { animation: slideInRight 0.7s ease-out; }
+        .float-animation { animation: float 3s ease-in-out infinite; }
+        .pop-up { animation: popUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .slide-down { animation: slideDown 0.4s ease-out; }
+        .notif-slide { animation: notifSlide 0.3s ease-out; }
+        .glow-effect { animation: glow 2s infinite; }
         
-        .btn-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform;
-        }
-        .btn-hover:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-        .feature-card {
-            transition: all 0.3s ease;
-            will-change: transform;
-        }
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
         .gradient-text {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .gradient-btn {
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: all 0.2s ease;
         }
-        .premium-glow {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4), 0 0 60px rgba(139, 92, 246, 0.2);
+        .gradient-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
-        .shimmer-bg {
-            background: linear-gradient(90deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.2) 50%, rgba(59,130,246,0.1) 100%);
-            background-size: 200% 100%;
-            animation: shimmer 3s infinite;
+        
+        .hero-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .search-card {
+            transition: all 0.3s ease;
+            will-change: transform;
+        }
+        
+        .property-popup {
+            animation: popUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
         }
         
         .notification {
-            animation: notif-slide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            animation: notifSlide 0.3s ease-out;
+            will-change: transform;
         }
-        .notification:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        .notification.hide {
-            animation: notif-fade-out 0.5s ease forwards;
-        }
-
-        /* Performance optimizations */
-        html { scroll-behavior: smooth; }
-        body { backface-visibility: hidden; }
         
         @media (max-width: 768px) {
-            .float-animation { animation: float 3s ease-in-out infinite; }
+            .float-animation { animation: float 2s ease-in-out infinite; }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-x-hidden">
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
     
-    <!-- Notification Container -->
-    <div id="notificationContainer" class="fixed top-4 right-4 z-40 space-y-2 max-w-xs"></div>
+    <!-- Notification Container (Below Header) -->
+    <div id="notificationContainer" class="fixed top-20 right-4 z-30 space-y-2 max-w-xs pointer-events-none"></div>
 
     <!-- Header -->
-    <header class="fixed top-0 w-full bg-slate-900/95 backdrop-blur-md z-50 border-b border-slate-700/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <header class="fixed top-0 w-full bg-slate-900/98 backdrop-blur-md z-50 border-b border-slate-700/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-2 animate-fade-in-down">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.5 1.5H9.5c-.55 0-1 .45-1 1v5h-5c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h5v5c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-5h5c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-5v-5c0-.55-.45-1-1-1z"/>
                         </svg>
                     </div>
-                    <h1 class="text-xl sm:text-2xl font-bold gradient-text">Zip-Foreclosures</h1>
+                    <h1 class="text-xl font-bold gradient-text">Zip-Foreclosures</h1>
                 </div>
-                <div class="hidden sm:flex gap-4">
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-4 py-2 text-sm font-medium hover:text-blue-400 transition">Features</a>
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-4 py-2 text-sm font-medium hover:text-blue-400 transition">Benefits</a>
-                </div>
+                <div class="text-sm text-slate-400">$1 Trial</div>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center pt-20 pb-10 px-4">
-        <div class="max-w-6xl w-full grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+    <section class="min-h-screen flex items-center justify-center pt-24 pb-10 px-4 relative overflow-hidden">
+        <div class="max-w-6xl w-full grid md:grid-cols-2 gap-8 items-center">
             
             <!-- Left Content -->
-            <div class="space-y-6 animate-slide-in-left">
+            <div class="space-y-6 animate-slide-in-left z-10">
                 <div class="space-y-3">
-                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4 animate-bounce">
-                        🎉 EXCLUSIVE OFFER
+                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/40 rounded-full text-blue-300 text-xs font-semibold">
+                        🎉 EXCLUSIVE $1 OFFER
                     </div>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
-                        Get Started for Just
-                        <span class="gradient-text"> $1</span>
+                    <h2 class="text-5xl sm:text-6xl font-black leading-tight">
+                        Find Your
+                        <span class="gradient-text"> Dream Deal</span>
                     </h2>
-                    <p class="text-xl text-slate-300">
-                        Unlock exclusive foreclosure opportunities and real estate insights with our premium trial.
+                    <p class="text-lg text-slate-300">
+                        Unlock exclusive foreclosure opportunities nationwide
                     </p>
                 </div>
 
+                <!-- Search Section -->
                 <div class="space-y-3 pt-4">
-                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.1s;">
-                        <div class="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    <div class="relative group">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Search properties... (try 'New York' or 'Texas')"
+                            class="w-full px-5 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition"
+                        >
+                        <button 
+                            onclick="searchProperty()"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-500/20 rounded-lg transition"
+                        >
+                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                        </div>
-                        <span class="text-slate-200">Access thousands of foreclosure listings nationwide</span>
+                        </button>
                     </div>
-                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.2s;">
-                        <div class="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
+
+                    <!-- Property Popup -->
+                    <div id="propertyPopup" class="hidden property-popup bg-gradient-to-br from-blue-500/15 to-purple-500/15 border border-blue-400/30 rounded-xl p-4 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.5 1.5H9.5c-.55 0-1 .45-1 1v5h-5c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h5v5c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-5h5c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-5v-5c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold" id="popupTitle">Property Found</p>
+                                <p class="text-sm text-slate-300" id="popupDesc">Ready to view listings</p>
+                            </div>
                         </div>
-                        <span class="text-slate-200">Real-time market data and investment insights</span>
-                    </div>
-                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <span class="text-slate-200">Expert analysis and property valuation tools</span>
+                        <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="block w-full gradient-btn py-2 rounded-lg font-semibold text-center text-white text-sm hover:scale-105 transition">
+                            View Listings
+                        </a>
                     </div>
                 </div>
 
-                <div class="pt-4 flex gap-3 flex-col sm:flex-row">
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn btn-hover px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 premium-glow">
-                        <span>Start $1 Trial Now</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                        </svg>
-                    </a>
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10 inline-flex items-center justify-center">
-                        Learn More
-                    </a>
-                </div>
+                <!-- CTA Button -->
+                <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect w-full sm:w-auto">
+                    <span>Start $1 Trial</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
 
-                <p class="text-sm text-slate-400">✓ US Only • No credit card required • Cancel anytime</p>
+                <p class="text-sm text-slate-400">✓ 10K+ Properties • 50+ States • 24/7 Support</p>
             </div>
 
-            <!-- Right Visual - Animated Offer Card -->
-            <div class="relative hidden md:flex justify-center items-center animate-slide-in-right">
+            <!-- Right - AI Animated Hero -->
+            <div class="hidden md:flex justify-center items-center animate-slide-in-right">
                 <div class="float-animation relative w-full max-w-md">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-30"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-25"></div>
                     
-                    <!-- Main Card -->
-                    <div class="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-400/40 rounded-3xl p-8 space-y-6 overflow-hidden">
-                        
-                        <!-- Animated Background -->
-                        <div class="absolute inset-0 shimmer-bg opacity-50"></div>
-                        
-                        <!-- Content -->
-                        <div class="relative space-y-6">
-                            <!-- Price Tag -->
-                            <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl p-6 text-center transform hover:scale-105 transition">
-                                <div class="text-5xl font-black text-white">$1</div>
-                                <div class="text-sm font-semibold text-emerald-100">TRIAL OFFER</div>
-                            </div>
-
-                            <!-- Features List -->
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm font-semibold">10,000+ Properties</span>
-                                </div>
-                                <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
-                                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm font-semibold">Real-time Alerts</span>
-                                </div>
-                                <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
-                                    <div class="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm font-semibold">Expert Support</span>
-                                </div>
-                            </div>
-
-                            <!-- CTA Button -->
-                            <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn btn-hover w-full py-3 rounded-xl font-bold text-white inline-flex items-center justify-center gap-2 premium-glow">
-                                Start Now
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                </svg>
-                            </a>
-
-                            <!-- Stats -->
-                            <div class="grid grid-cols-3 gap-2 text-center pt-4 border-t border-slate-500/30">
-                                <div>
-                                    <div class="text-2xl font-bold gradient-text">10K+</div>
-                                    <div class="text-xs text-slate-300">Properties</div>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold gradient-text">50+</div>
-                                    <div class="text-xs text-slate-300">States</div>
-                                </div>
-                                <div>
-                                    <div class="text-2xl font-bold gradient-text">24/7</div>
-                                    <div class="text-xs text-slate-300">Support</div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Canvas Container -->
+                    <div class="relative bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-xl border border-blue-400/30 rounded-3xl p-1 overflow-hidden">
+                        <canvas id="heroCanvas" class="hero-canvas w-full h-96 rounded-3xl"></canvas>
                     </div>
                 </div>
             </div>
@@ -278,66 +199,36 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 px-4 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
+    <section class="py-16 px-4">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center space-y-4 mb-12">
-                <h3 class="text-3xl sm:text-4xl font-bold gradient-text">Why Choose Zip-Foreclosures?</h3>
-                <p class="text-slate-300 max-w-2xl mx-auto">Everything you need to succeed in foreclosure investing</p>
-            </div>
+            <h3 class="text-4xl font-bold text-center mb-12 gradient-text">Why Choose Zip-Foreclosures?</h3>
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="feature-card bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-400/30 rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-400/30 rounded-2xl p-6 hover:scale-105 transition">
+                    <div class="w-12 h-12 bg-blue-500/30 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-bold">Advanced Search</h4>
-                    <p class="text-slate-300 text-sm">Find properties by location, price, auction date, and more</p>
+                    <h4 class="text-lg font-bold mb-2">Advanced Search</h4>
+                    <p class="text-slate-300 text-sm">Find properties by location, price & auction date</p>
                 </div>
-                <div class="feature-card bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-400/30 rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-400/30 rounded-2xl p-6 hover:scale-105 transition">
+                    <div class="w-12 h-12 bg-purple-500/30 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-bold">Market Analytics</h4>
-                    <p class="text-slate-300 text-sm">Real-time data and trends for informed decisions</p>
+                    <h4 class="text-lg font-bold mb-2">Market Analytics</h4>
+                    <p class="text-slate-300 text-sm">Real-time data and trends for smart decisions</p>
                 </div>
-                <div class="feature-card bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                <div class="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-2xl p-6 hover:scale-105 transition">
+                    <div class="w-12 h-12 bg-green-500/30 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-bold">Instant Alerts</h4>
+                    <h4 class="text-lg font-bold mb-2">Instant Alerts</h4>
                     <p class="text-slate-300 text-sm">Get notified about new listings matching your criteria</p>
-                </div>
-                <div class="feature-card bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-400/30 rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-bold">ROI Calculator</h4>
-                    <p class="text-slate-300 text-sm">Calculate potential returns on each property</p>
-                </div>
-                <div class="feature-card bg-gradient-to-br from-indigo-500/10 to-blue-500/10 border border-indigo-400/30 rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.172l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-bold">Expert Support</h4>
-                    <p class="text-slate-300 text-sm">24/7 customer service to help you succeed</p>
-                </div>
-                <div class="feature-card bg-gradient-to-br from-rose-500/10 to-pink-500/10 border border-rose-400/30 rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-pink-500 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-bold">Verified Data</h4>
-                    <p class="text-slate-300 text-sm">All listings verified and updated regularly</p>
                 </div>
             </div>
         </div>
@@ -346,100 +237,169 @@
     <!-- CTA Section -->
     <section class="py-16 px-4">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/50 rounded-3xl p-8 sm:p-12 text-center space-y-6 backdrop-blur-sm">
-                <h3 class="text-3xl sm:text-4xl font-bold">Ready to Start Investing?</h3>
-                <p class="text-lg text-slate-200 max-w-2xl mx-auto">Join thousands of successful investors using Zip-Foreclosures</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn btn-hover px-10 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 premium-glow">
-                        <span>Start Your $1 Trial</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                        </svg>
-                    </a>
-                </div>
-                <p class="text-xs sm:text-sm text-slate-400">Limited time offer • US only • 100% satisfaction guarantee</p>
+            <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/40 rounded-3xl p-12 text-center space-y-6">
+                <h3 class="text-4xl font-bold">Ready to Start Investing?</h3>
+                <p class="text-lg text-slate-200">Join thousands of successful investors using Zip-Foreclosures</p>
+                <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-10 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect hover:scale-105 transition">
+                    <span>Start Your $1 Trial</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
+                <p class="text-xs text-slate-400">Limited time • 100% satisfaction guarantee</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-700/50 py-8 px-4 bg-slate-900/50 backdrop-blur-sm">
-        <div class="max-w-6xl mx-auto text-center space-y-4">
-            <p class="text-slate-400">© 2025 Zip-Foreclosures. All rights reserved.</p>
-            <div class="flex justify-center gap-4 flex-wrap text-sm text-slate-400">
-                <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
-                <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
-                <a href="#" class="hover:text-blue-400 transition">Contact Us</a>
-            </div>
-        </div>
+    <footer class="border-t border-slate-700/30 py-6 px-4 bg-slate-900/50 text-center text-slate-400 text-sm">
+        <p>© 2025 Zip-Foreclosures. All rights reserved.</p>
     </footer>
 
     <script>
-        const names = ['Sarah M.', 'John D.', 'Michael R.', 'Jessica L.', 'David K.', 'Emily T.', 'Robert P.', 'Amanda S.', 'Chris W.', 'Jennifer C.'];
-        const gifts = ['$200 Bonus', '$150 Credit', 'Free Guide', 'Premium Access', '$300 Gift Card', 'Pro Tools', 'Expert Consultation', 'Market Report', 'Analysis Tools', 'Fast Track Access'];
-        const locations = ['New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Phoenix, AZ', 'Miami, FL', 'Seattle, WA', 'Boston, MA', 'Denver, CO', 'Austin, TX'];
-        const messages = [
-            'just purchased the $1 trial',
-            'started their journey',
-            'activated their account',
-            'joined the platform',
-            'got started today',
-            'claimed their spot',
-            'started investing'
-        ];
-
+        // Canvas Animation
+        function initCanvas() {
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+            
+            let time = 0;
+            
+            function drawHouse(x, y, scale, opacity) {
+                ctx.save();
+                ctx.globalAlpha = opacity;
+                ctx.translate(x, y);
+                ctx.scale(scale, scale);
+                
+                // House body
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                ctx.fillRect(-30, 20, 60, 40);
+                ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-30, 20, 60, 40);
+                
+                // Roof
+                ctx.fillStyle = 'rgba(139, 92, 246, 0.4)';
+                ctx.beginPath();
+                ctx.moveTo(-35, 20);
+                ctx.lineTo(0, -10);
+                ctx.lineTo(35, 20);
+                ctx.fill();
+                
+                // Door
+                ctx.fillStyle = 'rgba(236, 72, 153, 0.5)';
+                ctx.fillRect(-10, 35, 20, 25);
+                
+                // Window
+                ctx.fillStyle = 'rgba(34, 197, 94, 0.4)';
+                ctx.fillRect(-22, 28, 14, 14);
+                ctx.fillRect(8, 28, 14, 14);
+                
+                ctx.restore();
+            }
+            
+            function animate() {
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.05)';
+                ctx.fillRect(0, 0, canvas.width / 2, canvas.height / 2);
+                
+                // Draw rotating houses
+                const centerX = canvas.width / 4;
+                const centerY = canvas.height / 4;
+                const radius = 60;
+                
+                for (let i = 0; i < 3; i++) {
+                    const angle = (time / 1000 + (i / 3) * Math.PI * 2);
+                    const x = centerX + Math.cos(angle) * radius;
+                    const y = centerY + Math.sin(angle) * radius;
+                    const opacity = 0.3 + 0.4 * Math.sin(time / 500 + i);
+                    drawHouse(x, y, 0.8, opacity);
+                }
+                
+                // Center house
+                drawHouse(centerX, centerY, 1.2, 0.8);
+                
+                // Floating particles
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.6)';
+                for (let i = 0; i < 5; i++) {
+                    const x = centerX + Math.sin(time / 800 + i) * 40;
+                    const y = centerY + Math.cos(time / 900 + i) * 40;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                time += 20;
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        // Search Functionality
+        function searchProperty() {
+            const input = document.getElementById('searchInput').value.trim();
+            if (!input) return;
+            
+            const popup = document.getElementById('propertyPopup');
+            const title = document.getElementById('popupTitle');
+            const desc = document.getElementById('popupDesc');
+            
+            title.textContent = `Properties in ${input}`;
+            desc.textContent = '🏠 Ready to view listings in your area';
+            
+            popup.classList.remove('hidden');
+            
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 5000);
+        }
+        
+        // Notification System
+        const names = ['Sarah M.', 'John D.', 'Michael R.', 'Jessica L.', 'David K.'];
+        const locations = ['New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Austin, TX', 'Miami, FL'];
+        
         function showNotification() {
-            const randomName = names[Math.floor(Math.random() * names.length)];
-            const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
-            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-
+            const name = names[Math.floor(Math.random() * names.length)];
+            const location = locations[Math.floor(Math.random() * locations.length)];
+            
             const notif = document.createElement('div');
-            notif.className = 'notification bg-gradient-to-r from-green-500/90 to-emerald-500/90 backdrop-blur-md border border-green-400/50 rounded-lg p-3 shadow-lg text-xs sm:text-sm max-w-xs';
+            notif.className = 'notification bg-gradient-to-r from-green-500/80 to-emerald-500/80 border border-green-400/50 rounded-lg p-3 text-xs shadow-lg pointer-events-auto';
             notif.innerHTML = `
-                <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="block hover:opacity-80 transition">
-                    <div class="flex items-start gap-2">
-                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-semibold text-white">${randomName}</div>
-                            <div class="text-green-100 text-xs">${randomLocation}</div>
-                            <div class="mt-1 text-white/90">${randomMessage}</div>
-                            <div class="mt-1 font-bold text-yellow-200">🎁 Received: ${randomGift}</div>
-                        </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">✓</div>
+                    <div class="flex-1">
+                        <div class="font-semibold">${name}</div>
+                        <div class="text-green-100">${location}</div>
+                        <div class="mt-1">Started trial - Got $150 bonus 🎁</div>
                     </div>
-                </a>
+                </div>
             `;
-
+            
             const container = document.getElementById('notificationContainer');
             container.appendChild(notif);
-
+            
             setTimeout(() => {
-                notif.classList.add('hide');
-                setTimeout(() => notif.remove(), 500);
-            }, 6000);
+                notif.style.opacity = '0';
+                notif.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 4000);
         }
-
-        // Initial notification after 2 seconds
-        setTimeout(showNotification, 2000);
-
-        // Show notifications every 8-12 seconds
-        setInterval(() => {
-            if (Math.random() > 0.3) {
-                showNotification();
-            }
-        }, 8000 + Math.random() * 4000);
-
-        // Performance optimization
-        window.addEventListener('scroll', () => {
-            document.querySelectorAll('.feature-card').forEach(card => {
-                const rect = card.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.75) {
-                    card.style.opacity = '1';
-                }
-            });
-        }, { passive: true });
+        
+        // Init on load
+        window.addEventListener('load', () => {
+            initCanvas();
+            setTimeout(showNotification, 1500);
+            setInterval(showNotification, 7000);
+        });
+        
+        // Search on Enter
+        document.getElementById('searchInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchProperty();
+        });
     </script>
+</body>
+</html>
