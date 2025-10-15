@@ -35,6 +35,10 @@
             0% { opacity: 0; transform: translateY(-30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
         @keyframes notifSlide {
             from { opacity: 0; transform: translateY(-15px) translateX(15px); }
             to { opacity: 1; transform: translateY(0) translateX(0); }
@@ -52,6 +56,7 @@
         .slide-down { animation: slideDown 0.4s ease-out; }
         .notif-slide { animation: notifSlide 0.3s ease-out; }
         .glow-effect { animation: glow 2s infinite; }
+        .flip-animation { animation: flip 0.6s ease-in-out; }
         
         .gradient-text {
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
@@ -68,15 +73,10 @@
             box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
         
-        .hero-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        
-        .search-card {
+        .property-card {
             transition: all 0.3s ease;
             will-change: transform;
+            perspective: 1000px;
         }
         
         .property-popup {
@@ -106,7 +106,7 @@
                 <div class="flex items-center gap-2 animate-fade-in-down">
                     <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                         <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.5 1.5H9.5c-.55 0-1 .45-1 1v5h-5c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h5v5c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-5h5c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-5v-5c0-.55-.45-1-1-1z"/>
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                     </div>
                     <h1 class="text-xl font-bold gradient-text">Zip-Foreclosures</h1>
@@ -120,78 +120,150 @@
     <section class="min-h-screen flex items-center justify-center pt-24 pb-10 px-4 relative overflow-hidden">
         <div class="max-w-6xl w-full grid md:grid-cols-2 gap-8 items-center">
             
-            <!-- Left Content -->
+            <!-- LEFT CONTENT - ORIGINAL -->
             <div class="space-y-6 animate-slide-in-left z-10">
                 <div class="space-y-3">
-                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/40 rounded-full text-blue-300 text-xs font-semibold">
-                        🎉 EXCLUSIVE $1 OFFER
+                    <div class="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-300 text-sm font-semibold mb-4 animate-bounce">
+                        🎉 EXCLUSIVE OFFER
                     </div>
-                    <h2 class="text-5xl sm:text-6xl font-black leading-tight">
-                        Find Your
-                        <span class="gradient-text"> Dream Deal</span>
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+                        Get Started for Just
+                        <span class="gradient-text"> $1</span>
                     </h2>
-                    <p class="text-lg text-slate-300">
-                        Unlock exclusive foreclosure opportunities nationwide
+                    <p class="text-xl text-slate-300">
+                        Unlock exclusive foreclosure opportunities and real estate insights with our premium trial.
                     </p>
                 </div>
 
-                <!-- Search Section -->
                 <div class="space-y-3 pt-4">
-                    <div class="relative group">
-                        <input 
-                            type="text" 
-                            id="searchInput"
-                            placeholder="Search properties... (try 'New York' or 'Texas')"
-                            class="w-full px-5 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition"
-                        >
-                        <button 
-                            onclick="searchProperty()"
-                            class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-500/20 rounded-lg transition"
-                        >
-                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                             </svg>
-                        </button>
-                    </div>
-
-                    <!-- Property Popup -->
-                    <div id="propertyPopup" class="hidden property-popup bg-gradient-to-br from-blue-500/15 to-purple-500/15 border border-blue-400/30 rounded-xl p-4 space-y-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10.5 1.5H9.5c-.55 0-1 .45-1 1v5h-5c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h5v5c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-5h5c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-5v-5c0-.55-.45-1-1-1z"/>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold" id="popupTitle">Property Found</p>
-                                <p class="text-sm text-slate-300" id="popupDesc">Ready to view listings</p>
-                            </div>
                         </div>
-                        <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="block w-full gradient-btn py-2 rounded-lg font-semibold text-center text-white text-sm hover:scale-105 transition">
-                            View Listings
-                        </a>
+                        <span class="text-slate-200">Access thousands of foreclosure listings nationwide</span>
+                    </div>
+                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <span class="text-slate-200">Real-time market data and investment insights</span>
+                    </div>
+                    <div class="flex items-start gap-3 animate-fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <span class="text-slate-200">Expert analysis and property valuation tools</span>
                     </div>
                 </div>
 
-                <!-- CTA Button -->
-                <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect w-full sm:w-auto">
-                    <span>Start $1 Trial</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                    </svg>
-                </a>
+                <div class="pt-4 flex gap-3 flex-col sm:flex-row">
+                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn btn-hover px-8 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 premium-glow">
+                        <span>Start $1 Trial Now</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="px-8 py-4 rounded-lg font-bold text-lg border-2 border-slate-500 hover:border-slate-300 transition hover:bg-slate-500/10 inline-flex items-center justify-center">
+                        Learn More
+                    </a>
+                </div>
 
-                <p class="text-sm text-slate-400">✓ 10K+ Properties • 50+ States • 24/7 Support</p>
+                <p class="text-sm text-slate-400">✓ US Only • No credit card required • Cancel anytime</p>
             </div>
 
-            <!-- Right - AI Animated Hero -->
-            <div class="hidden md:flex justify-center items-center animate-slide-in-right">
+            <!-- RIGHT SECTION - SEARCH HOMES TO RENT -->
+            <div class="relative hidden md:flex justify-center items-center animate-slide-in-right">
                 <div class="float-animation relative w-full max-w-md">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-25"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-30"></div>
                     
-                    <!-- Canvas Container -->
-                    <div class="relative bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-xl border border-blue-400/30 rounded-3xl p-1 overflow-hidden">
-                        <canvas id="heroCanvas" class="hero-canvas w-full h-96 rounded-3xl"></canvas>
+                    <!-- Main Card -->
+                    <div class="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-blue-400/40 rounded-3xl p-8 space-y-6 overflow-hidden">
+                        
+                        <!-- Search Header -->
+                        <div class="text-center space-y-2">
+                            <h3 class="text-2xl font-bold gradient-text">Find Your Rental Home</h3>
+                            <p class="text-sm text-slate-300">Search & Browse Available Properties</p>
+                        </div>
+
+                        <!-- Search Input -->
+                        <div class="relative group">
+                            <input 
+                                type="text" 
+                                id="rentalSearch"
+                                placeholder="Search location..."
+                                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition"
+                            >
+                            <button 
+                                onclick="searchRental()"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-500/20 rounded-lg transition"
+                            >
+                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Property Results (Hidden by default) -->
+                        <div id="rentalResults" class="hidden space-y-3 property-popup">
+                            <!-- Result items will appear here -->
+                        </div>
+
+                        <!-- Default Display - Flip Cards -->
+                        <div id="defaultDisplay" class="space-y-4">
+                            <!-- For Sale Card -->
+                            <div class="property-card bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-400/40 rounded-2xl p-5 cursor-pointer hover:scale-105 transition" onclick="flipCard(0)">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="text-sm font-semibold text-slate-300">FOR SALE</div>
+                                        <div class="text-2xl font-bold text-white mt-1">$245K</div>
+                                        <div class="text-xs text-slate-400 mt-2">🏠 Click to see rental homes</div>
+                                    </div>
+                                    <div class="text-3xl">🏘️</div>
+                                </div>
+                            </div>
+
+                            <!-- To Rent Card -->
+                            <div class="property-card bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/40 rounded-2xl p-5 cursor-pointer hover:scale-105 transition" onclick="flipCard(1)">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="text-sm font-semibold text-slate-300">TO RENT</div>
+                                        <div class="text-2xl font-bold text-white mt-1">$1,200/mo</div>
+                                        <div class="text-xs text-slate-400 mt-2">🔑 Click to see rentals</div>
+                                    </div>
+                                    <div class="text-3xl">🔑</div>
+                                </div>
+                            </div>
+
+                            <!-- View All Button -->
+                            <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn w-full py-3 rounded-xl font-bold text-white inline-flex items-center justify-center gap-2">
+                                View All Homes
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-3 gap-2 text-center border-t border-slate-500/30 pt-4">
+                            <div>
+                                <div class="text-2xl font-bold gradient-text">10K+</div>
+                                <div class="text-xs text-slate-300">Properties</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold gradient-text">50+</div>
+                                <div class="text-xs text-slate-300">States</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold gradient-text">24/7</div>
+                                <div class="text-xs text-slate-300">Support</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -199,35 +271,38 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 px-4">
+    <section class="py-16 px-4 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
         <div class="max-w-6xl mx-auto">
-            <h3 class="text-4xl font-bold text-center mb-12 gradient-text">Why Choose Zip-Foreclosures?</h3>
+            <div class="text-center space-y-4 mb-12">
+                <h3 class="text-3xl sm:text-4xl font-bold gradient-text">Why Choose Zip-Foreclosures?</h3>
+                <p class="text-slate-300 max-w-2xl mx-auto">Everything you need to succeed in foreclosure investing</p>
+            </div>
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-400/30 rounded-2xl p-6 hover:scale-105 transition">
-                    <div class="w-12 h-12 bg-blue-500/30 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="feature-card bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-400/30 rounded-2xl p-6 space-y-4 hover:scale-105 transition">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-lg font-bold mb-2">Advanced Search</h4>
-                    <p class="text-slate-300 text-sm">Find properties by location, price & auction date</p>
+                    <h4 class="text-xl font-bold">Advanced Search</h4>
+                    <p class="text-slate-300 text-sm">Find properties by location, price, auction date, and more</p>
                 </div>
-                <div class="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-400/30 rounded-2xl p-6 hover:scale-105 transition">
-                    <div class="w-12 h-12 bg-purple-500/30 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="feature-card bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-400/30 rounded-2xl p-6 space-y-4 hover:scale-105 transition">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-lg font-bold mb-2">Market Analytics</h4>
-                    <p class="text-slate-300 text-sm">Real-time data and trends for smart decisions</p>
+                    <h4 class="text-xl font-bold">Market Analytics</h4>
+                    <p class="text-slate-300 text-sm">Real-time data and trends for informed decisions</p>
                 </div>
-                <div class="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-2xl p-6 hover:scale-105 transition">
-                    <div class="w-12 h-12 bg-green-500/30 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                <div class="feature-card bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-2xl p-6 space-y-4 hover:scale-105 transition">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-lg font-bold mb-2">Instant Alerts</h4>
+                    <h4 class="text-xl font-bold">Instant Alerts</h4>
                     <p class="text-slate-300 text-sm">Get notified about new listings matching your criteria</p>
                 </div>
             </div>
@@ -237,131 +312,107 @@
     <!-- CTA Section -->
     <section class="py-16 px-4">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/40 rounded-3xl p-12 text-center space-y-6">
-                <h3 class="text-4xl font-bold">Ready to Start Investing?</h3>
-                <p class="text-lg text-slate-200">Join thousands of successful investors using Zip-Foreclosures</p>
-                <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-10 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2 glow-effect hover:scale-105 transition">
-                    <span>Start Your $1 Trial</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                    </svg>
-                </a>
-                <p class="text-xs text-slate-400">Limited time • 100% satisfaction guarantee</p>
+            <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/50 rounded-3xl p-8 sm:p-12 text-center space-y-6 backdrop-blur-sm">
+                <h3 class="text-3xl sm:text-4xl font-bold">Ready to Start Investing?</h3>
+                <p class="text-lg text-slate-200 max-w-2xl mx-auto">Join thousands of successful investors using Zip-Foreclosures</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                    <a href="https://www.gogop.site/2488912N/88X9M9K/" target="_blank" class="gradient-btn px-10 py-4 rounded-lg font-bold text-lg text-white inline-flex items-center justify-center gap-2">
+                        <span>Start Your $1 Trial</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-400">Limited time offer • US only • 100% satisfaction guarantee</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-700/30 py-6 px-4 bg-slate-900/50 text-center text-slate-400 text-sm">
-        <p>© 2025 Zip-Foreclosures. All rights reserved.</p>
+    <footer class="border-t border-slate-700/50 py-8 px-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto text-center space-y-4">
+            <p class="text-slate-400">© 2025 Zip-Foreclosures. All rights reserved.</p>
+            <div class="flex justify-center gap-4 flex-wrap text-sm text-slate-400">
+                <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
+                <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
+                <a href="#" class="hover:text-blue-400 transition">Contact Us</a>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Canvas Animation
-        function initCanvas() {
-            const canvas = document.getElementById('heroCanvas');
-            if (!canvas) return;
+        // Sample rental data
+        const rentalData = {
+            'new york': [
+                { name: 'Modern Apartment', price: '$2,500/mo', type: '2 Bed' },
+                { name: 'Cozy Studio', price: '$1,800/mo', type: '1 Bed' },
+                { name: 'Luxury Penthouse', price: '$5,000/mo', type: '3 Bed' }
+            ],
+            'los angeles': [
+                { name: 'Sunny Villa', price: '$3,200/mo', type: '3 Bed' },
+                { name: 'Beach Cottage', price: '$2,800/mo', type: '2 Bed' }
+            ],
+            'chicago': [
+                { name: 'Downtown Loft', price: '$2,100/mo', type: '2 Bed' },
+                { name: 'Suburban Home', price: '$1,600/mo', type: '3 Bed' }
+            ],
+            'austin': [
+                { name: 'Modern Home', price: '$2,200/mo', type: '3 Bed' },
+                { name: 'Trendy Apartment', price: '$1,900/mo', type: '2 Bed' }
+            ]
+        };
+
+        // Search Rental
+        function searchRental() {
+            const input = document.getElementById('rentalSearch').value.trim().toLowerCase();
+            const results = document.getElementById('rentalResults');
+            const defaultDisplay = document.getElementById('defaultDisplay');
             
-            const ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth * 2;
-            canvas.height = canvas.offsetHeight * 2;
-            ctx.scale(2, 2);
-            
-            let time = 0;
-            
-            function drawHouse(x, y, scale, opacity) {
-                ctx.save();
-                ctx.globalAlpha = opacity;
-                ctx.translate(x, y);
-                ctx.scale(scale, scale);
-                
-                // House body
-                ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
-                ctx.fillRect(-30, 20, 60, 40);
-                ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(-30, 20, 60, 40);
-                
-                // Roof
-                ctx.fillStyle = 'rgba(139, 92, 246, 0.4)';
-                ctx.beginPath();
-                ctx.moveTo(-35, 20);
-                ctx.lineTo(0, -10);
-                ctx.lineTo(35, 20);
-                ctx.fill();
-                
-                // Door
-                ctx.fillStyle = 'rgba(236, 72, 153, 0.5)';
-                ctx.fillRect(-10, 35, 20, 25);
-                
-                // Window
-                ctx.fillStyle = 'rgba(34, 197, 94, 0.4)';
-                ctx.fillRect(-22, 28, 14, 14);
-                ctx.fillRect(8, 28, 14, 14);
-                
-                ctx.restore();
-            }
-            
-            function animate() {
-                ctx.fillStyle = 'rgba(15, 23, 42, 0.05)';
-                ctx.fillRect(0, 0, canvas.width / 2, canvas.height / 2);
-                
-                // Draw rotating houses
-                const centerX = canvas.width / 4;
-                const centerY = canvas.height / 4;
-                const radius = 60;
-                
-                for (let i = 0; i < 3; i++) {
-                    const angle = (time / 1000 + (i / 3) * Math.PI * 2);
-                    const x = centerX + Math.cos(angle) * radius;
-                    const y = centerY + Math.sin(angle) * radius;
-                    const opacity = 0.3 + 0.4 * Math.sin(time / 500 + i);
-                    drawHouse(x, y, 0.8, opacity);
-                }
-                
-                // Center house
-                drawHouse(centerX, centerY, 1.2, 0.8);
-                
-                // Floating particles
-                ctx.fillStyle = 'rgba(59, 130, 246, 0.6)';
-                for (let i = 0; i < 5; i++) {
-                    const x = centerX + Math.sin(time / 800 + i) * 40;
-                    const y = centerY + Math.cos(time / 900 + i) * 40;
-                    ctx.beginPath();
-                    ctx.arc(x, y, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                
-                time += 20;
-                requestAnimationFrame(animate);
-            }
-            
-            animate();
-        }
-        
-        // Search Functionality
-        function searchProperty() {
-            const input = document.getElementById('searchInput').value.trim();
             if (!input) return;
-            
-            const popup = document.getElementById('propertyPopup');
-            const title = document.getElementById('popupTitle');
-            const desc = document.getElementById('popupDesc');
-            
-            title.textContent = `Properties in ${input}`;
-            desc.textContent = '🏠 Ready to view listings in your area';
-            
-            popup.classList.remove('hidden');
-            
+
+            let properties = rentalData[input] || [
+                { name: 'Beautiful Home', price: '$2,000/mo', type: '2 Bed' },
+                { name: 'Spacious Apartment', price: '$1,700/mo', type: '2 Bed' }
+            ];
+
+            results.innerHTML = '';
+            properties.forEach((prop, idx) => {
+                const card = document.createElement('div');
+                card.className = 'pop-up bg-gradient-to-br from-blue-400/20 to-purple-400/20 border border-blue-400/40 rounded-xl p-4';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-semibold text-white">${prop.name}</div>
+                            <div class="text-sm text-slate-300">${prop.type}</div>
+                        </div>
+                        <div class="text-xl font-bold gradient-text">${prop.price}</div>
+                    </div>
+                `;
+                results.appendChild(card);
+            });
+
+            results.classList.remove('hidden');
+            defaultDisplay.classList.add('hidden');
+
             setTimeout(() => {
-                popup.classList.add('hidden');
-            }, 5000);
+                results.classList.add('hidden');
+                defaultDisplay.classList.remove('hidden');
+            }, 6000);
         }
-        
+
+        // Flip Card Animation
+        function flipCard(index) {
+            const cards = document.querySelectorAll('.property-card');
+            cards[index].classList.add('flip-animation');
+            setTimeout(() => {
+                cards[index].classList.remove('flip-animation');
+            }, 600);
+        }
+
         // Notification System
         const names = ['Sarah M.', 'John D.', 'Michael R.', 'Jessica L.', 'David K.'];
         const locations = ['New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Austin, TX', 'Miami, FL'];
-        
+
         function showNotification() {
             const name = names[Math.floor(Math.random() * names.length)];
             const location = locations[Math.floor(Math.random() * locations.length)];
@@ -374,7 +425,7 @@
                     <div class="flex-1">
                         <div class="font-semibold">${name}</div>
                         <div class="text-green-100">${location}</div>
-                        <div class="mt-1">Started trial - Got $150 bonus 🎁</div>
+                        <div class="mt-1">Purchased $1 trial - Got $150 bonus 🎁</div>
                     </div>
                 </div>
             `;
@@ -388,17 +439,16 @@
                 setTimeout(() => notif.remove(), 300);
             }, 4000);
         }
-        
-        // Init on load
+
+        // Init
         window.addEventListener('load', () => {
-            initCanvas();
             setTimeout(showNotification, 1500);
             setInterval(showNotification, 7000);
         });
-        
+
         // Search on Enter
-        document.getElementById('searchInput')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchProperty();
+        document.getElementById('rentalSearch')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchRental();
         });
     </script>
 </body>
